@@ -1,0 +1,23 @@
+{
+  "name": "web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "local.js",
+  "scripts": {
+    "start": "node src/local.js",
+    "dev": "nodemon src/local.js",
+    "tunnel": "ngrok http 3000"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.0",
+    "bcrypt": "^5.0.0",
+    "express": "^4.17.1",
+    "json-server": "^0.16.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.11",
+    "ngrok": "^3.3.0",
+    "nodemon": "^2.0.6"
+  }
+}
