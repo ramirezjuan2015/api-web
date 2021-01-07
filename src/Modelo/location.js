@@ -10,7 +10,7 @@ const locationSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Animal",
   },
-  markers: [Marker]
+  markers: [Marker],
 });
 
 mongoose.model("Location", locationSchema);

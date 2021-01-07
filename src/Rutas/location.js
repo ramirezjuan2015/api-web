@@ -18,25 +18,29 @@ router.get("/location", async (req, res) => {
 });
 
 router.post("/location", async (req, res) => {
-  const { animalId, locations } = req.body;
+  const { animalId, markers } = req.body;
 
   if (!animalId) {
-    return res.status(422).send({ error: "Debe proporcionar " });
+    return res.status(422).send({ error: "Debe proporcionar animal id" });
   }
 
-  if (!locations) {
-    return res.status(422).send({ error: "Locaciones necesitadas" })
+  if (!markers) {
+    return res.status(422).send({ error: "Locaciones necesitadas" });
   }
 
-  if (locations.len)
-    try {
-      const location = new locationModel({ locationId, animalId, userId: req.user._id });
-      await location.save();
-      res.send(location);
-    } catch (err) {
-      res.status(422).send({ error: "Locación inválida" });
-
-    }
+  if (!markers.length) {
+    return res.status(422).send({ error: "Necesita mas de una locación" });
+  }
+  try {
+    const location = new locationModel({
+      animalId,
+      markers,
+    });
+    await location.save();
+    res.send(location);
+  } catch (err) {
+    res.status(422).send({ error: "Locación inválida" });
+  }
 });
 
 module.exports = router;
