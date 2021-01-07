@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const Exigir = require("../Medio/exigir");
 
-const list = mongoose.model("Location");
+const locationModel = mongoose.model("Location");
 
 const router = express.Router();
 
@@ -10,28 +10,33 @@ router.use(Exigir);
 
 router.get("/location", async (req, res) => {
   try {
-    const animals = await list.find();
-    res.send(animals);
+    const location = await locationModel.find();
+    res.send(location);
   } catch (err) {
     res.status(422).send(console.log(err));
   }
 });
 
 router.post("/location", async (req, res) => {
-  const { locationId, animalId } = req.body;
+  const { animalId, locations } = req.body;
 
-  if (!locationId || !animalId) {
-    return res.status(422).send({ error: "Debe proporcionar ubicación" });
+  if (!animalId) {
+    return res.status(422).send({ error: "Debe proporcionar " });
   }
 
-  try {
-    const lista = new list({ locationId, animalId, userId: req.user._id });
-    await lista.save();
-    res.send(lista);
-  } catch (err) {
-    res.status(422).send({ error: "Locación inválida" });
-
+  if (!locations) {
+    return res.status(422).send({ error: "Locaciones necesitadas" })
   }
+
+  if (locations.len)
+    try {
+      const location = new locationModel({ locationId, animalId, userId: req.user._id });
+      await location.save();
+      res.send(location);
+    } catch (err) {
+      res.status(422).send({ error: "Locación inválida" });
+
+    }
 });
 
 module.exports = router;
